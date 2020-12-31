@@ -4,6 +4,9 @@
       "vector": "cpp",
       "iostream": "cpp",
       "chrono": "cpp",
-      "ratio": "cpp"
+      "ratio": "cpp",
+      "ostream": "cpp",
+      "stack": "cpp",
+      "utility": "cpp"
    }
 }

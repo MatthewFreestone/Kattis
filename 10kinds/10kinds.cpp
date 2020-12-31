@@ -2,52 +2,53 @@
 #include<list>
 #include<vector>
 #include<chrono>
+#include<algorithm>
 using namespace std;
 
 class Graph
 {
    int V;
    list<int>* adjacent;  
-   void recVisit(int v, bool visited[], vector<int>* contains);
+   void recVisit(int v, bool visited[]);
    
 
    public:
       Graph(int v);
       void addEdge(int u, int v);
-      vector<int> dfs(int v);
+      bool* dfs(int v);
 };
 
 Graph::Graph(int V){
    this->V = V;
    adjacent = new list<int>[V];
+   cout << "graph init" << endl;
 }
 
 void Graph::addEdge(int u, int v){
    adjacent[u].push_back(v);
 }
 
-void Graph::recVisit(int v, bool visited[], vector<int>* contains){
+void Graph::recVisit(int v, bool visited[]){
+   //printf("visited %i \n", v);
    visited[v] = true;
-   contains->push_back(v);
    for (list<int>::iterator i = adjacent[v].begin(); i != adjacent[v].end(); ++i){
       if(!visited[*i]){
-         recVisit(*i, visited, contains);
+         recVisit(*i, visited);
       }
    } 
    
 }
 
-vector<int> Graph::dfs(int v){
-   vector<int> contains;
-   //if (adjacent->size() != 0){
-      bool *visited = new bool[V];
-      for (int i = 0; i < V; i++)
-      {
-         visited[i] = false;
-      }
-      recVisit(v, visited, &contains);
-   //}
-   return contains;
+bool* Graph::dfs(int v){
+   cout << "dfs start" << endl;
+   bool *visited = new bool[V];
+   for (int i = 0; i < V; i++)
+   {
+      visited[i] = false;
+   }
+   recVisit(v, visited);
+   cout << "finished recvisit" << endl;
+   return visited;
 }
 
 
@@ -56,8 +57,12 @@ vector<int> Graph::dfs(int v){
 
 int main(void)
 {
+   ios::sync_with_stdio(false);
+   cin.tie(NULL);
+   
    int r,c;
    cin >> r >> c; 
+
    auto start = chrono::high_resolution_clock::now();
 
    vector<int> *flat = new vector<int>[r*c];
@@ -75,6 +80,7 @@ int main(void)
 
    Graph g(r*c);
    
+   //optimize by skipping rows 
    for (int i = 0; i < flat->size(); i++) //check around
    {
       if (i % c != c-1 && flat->at(i) == flat->at(i+1)){ //add to the right
@@ -107,38 +113,29 @@ int main(void)
       int sIndex = (x1-1) + c*(y1-1);
       int eIndex = (x2-1) + c*(y2-1);
 
-      vector<int> contains;
+      bool success = false;
+
+      bool* visited;
       if (sIndex != eIndex){
-         contains = g.dfs(sIndex);
+         visited = g.dfs(sIndex);
+         if (visited[eIndex]){
+            success = true;
+         }
       }
       else{
-         contains = {eIndex};
-      }
-
-      //cout << "At " << sIndex << ", contains is size " << contains.size() << " : ";
-
-      bool success = false;
-      for (int i = 0; i < contains.size(); i++)
-      {
-         if (contains.at(i) == eIndex){
-            success = true;
-            break;
-         }
+         success = true;
       }
 
       if(success){
          if (flat->at(eIndex) == 1){
             output += "decimal\n";
-            //cout << "decimal" << endl;
          }
          else{
             output += "binary\n";
-            //cout << "binary" << endl;
          }
       }
       else{
          output += "neither\n";
-         //cout << "neither" << endl;
       }
       
    }
