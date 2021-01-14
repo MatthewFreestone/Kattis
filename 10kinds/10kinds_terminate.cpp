@@ -13,7 +13,7 @@ class Graph
    public:
       Graph(int v);
       void addEdge(int u, int v);
-      bool* dfs(int v);
+      bool* dfs(int v, int destination);
 };
 
 Graph::Graph(int V){
@@ -25,7 +25,7 @@ void Graph::addEdge(int u, int v){
    adjacent[u].push_back(v);
 }
 
-bool* Graph::dfs(int v){
+bool* Graph::dfs(int v, int destination){
    bool *visited = new bool[V];
    for (int i = 0; i < V; i++)
    {
@@ -38,6 +38,10 @@ bool* Graph::dfs(int v){
        int curr = toVisit.top();
        toVisit.pop();
        visited[curr] = true;
+       if (curr == destination){
+          toVisit.empty();
+          break;
+       }
        for (auto i = adjacent[curr].begin(); i != adjacent[curr].end(); ++i){
            if (!visited[*i]){
                toVisit.push(*i);
@@ -149,7 +153,7 @@ int main(void)
 
       bool* visited;
       if (sIndex != eIndex){
-        visited = g.dfs(sIndex);
+        visited = g.dfs(sIndex, eIndex);
         if (visited[eIndex]){
             success = true;
         }

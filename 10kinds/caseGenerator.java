@@ -10,21 +10,23 @@ public class caseGenerator {
   
         int r = 1000;//in.nextInt();
         int c = 1000;//in.nextInt();
-        int pts = 50;
+        int pts = 1000;
         f.append(r + " " + c + "\n");
   
         for (int i = 0; i < r; i++){
             String line = "";
+            //int lineChar = random.nextInt(2);
             for (int j = 0; j < c; j++) {
-                line += "1"; //random.nextInt(1);
+                line += random.nextInt(2); //lineChar; 
             }
             f.append(line + "\n");
         }
 
         f.append(pts + "\n");
         for (int i = 0; i <pts; i++){
-            String line = random.nextInt(r) + " " + random.nextInt(c);
-            f.append(line + "\n");
+            String pt1 = (random.nextInt(r-1)+1) + " " + (random.nextInt(c-1)+1);
+            String pt2 = (random.nextInt(r-1)+1) + " " + (random.nextInt(c-1)+1);
+            f.append(pt1 + " " + pt2 + "\n");
         }
         in.close();
         f.close();

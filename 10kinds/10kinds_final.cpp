@@ -1,6 +1,5 @@
 #include<iostream>
 #include<vector>
-#include<chrono>
 #include<stack>
 #include<utility>
 using namespace std;
@@ -13,7 +12,7 @@ class Graph
    public:
       Graph(int v);
       void addEdge(int u, int v);
-      bool* dfs(int v);
+      bool* dfs(int v, int destination);
 };
 
 Graph::Graph(int V){
@@ -25,7 +24,7 @@ void Graph::addEdge(int u, int v){
    adjacent[u].push_back(v);
 }
 
-bool* Graph::dfs(int v){
+bool* Graph::dfs(int v, int destination){
    bool *visited = new bool[V];
    for (int i = 0; i < V; i++)
    {
@@ -38,6 +37,9 @@ bool* Graph::dfs(int v){
        int curr = toVisit.top();
        toVisit.pop();
        visited[curr] = true;
+       if (curr == destination){
+          return visited;
+       }
        for (auto i = adjacent[curr].begin(); i != adjacent[curr].end(); ++i){
            if (!visited[*i]){
                toVisit.push(*i);
@@ -61,9 +63,6 @@ int main(void)
    int r,c;
    cin >> r >> c; 
 
-   auto start = chrono::high_resolution_clock::now();
-   auto true_start = chrono::high_resolution_clock::now();
-
    vector<int> *flat = new vector<int>[r*c];
    string in; 
    for (int i = 0; i < r; i++)
@@ -76,10 +75,6 @@ int main(void)
       }
       
    }
-   auto stop = chrono::high_resolution_clock::now();
-   chrono::duration<double> elapsed = stop-start;
-   cout << elapsed.count() << " seconds for read graph\n";
-   start = chrono::high_resolution_clock::now();
 
    Graph g(r*c);
    
@@ -102,10 +97,6 @@ int main(void)
       }
    }
 
-   stop = chrono::high_resolution_clock::now();
-   elapsed = stop-start;
-   cout << elapsed.count() << " seconds for edges created\n";
-   
    int n;
    cin >> n;
 
@@ -124,7 +115,6 @@ int main(void)
 
    for (int i = 0; i < points.size(); i++) 
    {
-      auto case_start = chrono::high_resolution_clock::now();
       //cout << "solved is " << solved.at(i) << endl;
       if (solved.at(i) != -1){
         if ((solved.at(i) == 1)){
@@ -133,9 +123,6 @@ int main(void)
         else{
             output += "binary\n";
         }
-        stop = chrono::high_resolution_clock::now();
-        elapsed = stop-case_start;
-        cout << "Shortcut: " << elapsed.count() << " seconds for this case\n";
         continue;
       }
 
@@ -149,7 +136,7 @@ int main(void)
 
       bool* visited;
       if (sIndex != eIndex){
-        visited = g.dfs(sIndex);
+        visited = g.dfs(sIndex, eIndex);
         if (visited[eIndex]){
             success = true;
         }
@@ -163,7 +150,7 @@ int main(void)
             if (solved.at(k) == -1 && visited[first] && visited[second]){
                 solved[k] = flat->at(first);
                 //cout << "added cheat for " << first << " " << second << "\n";
-                cout << "solved[" << k <<"] is now " << solved[k] << "\n";
+                //cout << "solved[" << k <<"] is now " << solved[k] << "\n";
                 //printf("added cheat for %i %i", first, second);
             }
         }
@@ -184,20 +171,10 @@ int main(void)
       else{
          output += "neither\n";
       }
-      stop = chrono::high_resolution_clock::now();
-      elapsed = stop-case_start;
-      cout << elapsed.count() << " seconds for this case\n";
       
    }
-   stop = chrono::high_resolution_clock::now();
-   elapsed = stop-true_start;
-   cout << "Time taken was " << elapsed.count() << " seconds\n";
-   //cout << output;
+   cout << output;
    return 0;
 }
 
-
-//optimize: keep track of 1s and 0s sections 
-//stop when u see end 
-//cache results 
 //scanf/printf

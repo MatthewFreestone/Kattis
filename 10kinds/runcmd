@@ -1,2 +1,3 @@
 alias case="javac caseGenerator.java; java caseGenerator"
 alias rerun="g+++ 10kinds_caching.cpp; ./a < in.in"
+alias term="g+++ 10kinds_terminate.cpp; ./a <in.in"

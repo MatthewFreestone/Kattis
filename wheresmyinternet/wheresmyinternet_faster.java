@@ -1,19 +1,18 @@
-
 import java.io.*;
 import java.util.*;
 
 class DFS_Graph_Faster{
 
 	int vert;
-	LinkedList<Integer>[] adjacent; 
+	ArrayList<Integer>[] adjacent; 
 
 
 
 	public DFS_Graph_Faster(int vert){
       this.vert = vert;
-		adjacent = new LinkedList[vert];
+		adjacent = new ArrayList[vert];
 		for (int i = 0; i < vert; i++){
-			adjacent[i] = new LinkedList();
+			adjacent[i] = new ArrayList<Integer>();
 		}
 	}
 
@@ -50,41 +49,100 @@ class DFS_Graph_Faster{
 class wheresmyinternet_faster{
 	public static void main(String[] args) throws Exception{
       long time = System.currentTimeMillis();
-		Scanner in = new Scanner(System.in);
-		int houses = in.nextInt();
-		int cables = in.nextInt();
+      Kattio io = new Kattio(System.in, System.out);
+		int houses = io.getInt();
+		int cables = io.getInt();
 		DFS_Graph_Faster graph = new DFS_Graph_Faster(houses+1);
 		for (int i = 0; i < cables; i++){
-			int n = in.nextInt();
-			int m = in.nextInt();
+			int n = io.getInt();
+			int m = io.getInt();
 			graph.addEdge(n,m);
 		}
 
       boolean[] inNet = graph.search(1);
 
-		ArrayList<Integer> notCon = new ArrayList<Integer>();
+      String ans = "";
 		if (houses > 1){
          for (int i = 1; i < houses+1; i++){
             if(!inNet[i]){
-               notCon.add(i);
+               //notCon.add(i);
+               ans += i + "\n";
             }
          }
       }
-
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-      if(notCon.size() != 0){
-			for (int h : notCon){
-            bw.append(h + "\n");
-         }
-         bw.flush();
+     
+		if(!ans.equals("")){
+         io.print(ans);
 		}
 		else{
-			System.out.println("Connected");
+			io.print("Connected");
       }
       
-      System.out.println("Operation took " + (System.currentTimeMillis() - time) + " ms");
-      in.close();
-
+      //io.println("Operation took " + (System.currentTimeMillis() - time) + " ms");
+      io.flush();
 	}
 
+}
+
+
+
+
+
+
+
+class Kattio extends PrintWriter {
+   public Kattio(InputStream i) {
+       super(new BufferedOutputStream(System.out));
+       r = new BufferedReader(new InputStreamReader(i));
+   }
+   public Kattio(InputStream i, OutputStream o) {
+       super(new BufferedOutputStream(o));
+       r = new BufferedReader(new InputStreamReader(i));
+   }
+
+   public boolean hasMoreTokens() {
+       return peekToken() != null;
+   }
+
+   public int getInt() {
+       return Integer.parseInt(nextToken());
+   }
+
+   public double getDouble() {
+       return Double.parseDouble(nextToken());
+   }
+
+   public long getLong() {
+       return Long.parseLong(nextToken());
+   }
+
+   public String getWord() {
+       return nextToken();
+   }
+
+
+
+   private BufferedReader r;
+   private String line;
+   private StringTokenizer st;
+   private String token;
+
+   private String peekToken() {
+       if (token == null)
+           try {
+               while (st == null || !st.hasMoreTokens()) {
+                   line = r.readLine();
+                   if (line == null) return null;
+                   st = new StringTokenizer(line);
+               }
+               token = st.nextToken();
+           } catch (IOException e) { }
+       return token;
+   }
+
+   private String nextToken() {
+       String ans = peekToken();
+       token = null;
+       return ans;
+   }
 }
