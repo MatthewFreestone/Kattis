@@ -9,11 +9,12 @@ def find(parents, child):
  	return parents[child]
 
 n,m = [int(x) for x in input().split(' ')]
-parents = dict()
-for i in range(n):
-	parents[i+1] = i+1
+parents = list(range(n+1))
+# for i in range(n):
+# 	parents[i+1] = i+1
 for _ in range(m):
-	x,y = [int(t) for t in input().split(' ')]
+	x, y = map(int, input().split())
+	#x,y = [int(t) for t in input().split(' ')]
 	union(parents, x, y)
 none = True
 for i in range(n):

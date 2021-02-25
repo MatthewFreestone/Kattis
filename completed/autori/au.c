@@ -4,6 +4,7 @@ int main(int argc, char const *argv[])
 {
 	char name[128];
 	scanf("%s", name);
+	pritf("%s\n", );
 	for(int i = 0; i < strlen(name); i++){
 		if (name[i] >= 'A' && name[i] <= 'Z'){
 			printf("%c", name[i]);
