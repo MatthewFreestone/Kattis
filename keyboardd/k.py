@@ -1,6 +1,6 @@
 def main():
-    correct = input() + '+'
-    sticky = input() + '+'
+    correct = input() + '~~'
+    sticky = input() + '~~~~'
     j = 0
     out = set()
     for i in range(len(correct)):
