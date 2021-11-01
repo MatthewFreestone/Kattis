@@ -23,14 +23,3 @@ def alt_method():
 if __name__ == "__main__":
     #main()
     alt_method()
-
-
-
-
-
-
-
-
-
-
-

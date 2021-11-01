@@ -1,9 +1,9 @@
 def main():
     r, c = map(int,input().split(' '))
-    graph = [list(input()) for _ in range(r)]
+    graph = list([list(input()) for _ in range(r)])
 
     isValid = lambda x,y : -1 < x < r and -1 < y < c and graph[x][y] == '#'
-    around = zip([-1,-1,-1,0,0,1,1,1], [-1,0,1,-1,1,-1,0,1])
+    around = list(zip([-1,-1,-1,0,0,1,1,1], [-1,0,1,-1,1,-1,0,1]))
 
     def dfs(i,j, graph):
         graph[i][j] = '.'
@@ -21,7 +21,6 @@ def main():
                 dfs(i,j, graph)
 
     print(circles)
-
 
 
 if __name__ == '__main__':
