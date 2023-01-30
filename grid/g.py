@@ -1,37 +1,24 @@
 from collections import deque
-import math
-
 def main():
-    n,m = map(int,input().split(' '))
-    grid = [input() for _ in range(n)]
-    isValid = lambda x,y : -1 < x < n and -1 < y < m
-
-    def getNeighbors(i,j):
-        neighbors = []
-        grid_val = int(grid[i][j])
-        dirs = [(1,0),(0,1),(-1,0),(0,-1)]
-        for dx,dy in dirs:
-            x, y = i + dx*grid_val, j + dy*grid_val
-            if isValid(x,y):
-                neighbors.append((x,y))
-        return neighbors
- 
-    ##bfs
-    visited = [(0,0)]
+    n, m = map(int, input().split())
+    grid = [[int(a) for a in input()] for _ in range(n)]
+    around = lambda x: ((0,x),(0,-x),(x,0),(-x,0))
+    in_range = lambda x: -1 < x[0] < n and -1 < x[1] < m
     queue = deque()
-    queue.append((0,0,0)) #start at top-left of grid (x,y,length)
+    queue.appendleft((0,0,0))
+    visited = set() 
     while queue:
-        c_x, c_y, c_l = queue.pop()
-        if (c_x, c_y) == (n-1,m-1):
-            # print("Success!")
-            print(c_l)
+        i,j, steps = queue.pop()
+        if i == n-1 and j == m-1:
+            print(steps)
             return
-        neighbors = getNeighbors(c_x, c_y)
-        for x,y in neighbors:
-            if (x,y) not in visited:
-                visited.append((x,y))
-                queue.append((x,y, c_l+1))
-
+        if (i,j) in visited:
+            continue
+        visited.add((i,j))
+        curr = grid[i][j]
+        neighbors = [(i+di, j+dj,steps+1) for di,dj in around(curr) if in_range((i+di, j+dj))] #and (i+di, j+dj) not in visited]
+        for item in neighbors:
+            queue.appendleft(item)
     print(-1)
 
 if __name__ == '__main__':

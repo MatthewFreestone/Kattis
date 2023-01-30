@@ -1,22 +1,22 @@
 def main():
-    n = int(input())
-    while(n):
-        times = []
-        for _ in range(n):
-            raw = input()
-            t,ampm = raw.split()
-            h,m = map(int,t.split(":"))
-            if h == 12:
-                h = 0
-            if ampm == "p.m.":
-                h += 12
-            times.append((h*100+m,raw))
-        times.sort()
-        for _,t in times:
-            print(t)
-        print() # newline
+    while True:
         n = int(input())
+        if n == 0:
+            break
+        items = []
+        for _ in range(n):
+            original = input()
+            date_str, ampm = original.split()
+            hour,min = map(int, date_str.split(':'))
+            if ampm == 'p.m.' and hour != 12:
+                hour += 12
+            elif ampm == 'a.m.' and hour == 12:
+                hour -= 12
+            dur = hour*100+min
+            items.append((dur, original))
+        items.sort(key=lambda x: x[0])
+        print('\n'.join((item[1] for item in items)), '\n')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

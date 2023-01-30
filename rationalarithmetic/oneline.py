@@ -1,0 +1,3 @@
+from fractions import Fraction
+from sys import stdin
+print('\n'.join(map(lambda x : f"{x.numerator} / {x.denominator}",(map(lambda x: {'+': Fraction(int(x[0]), int(x[1])).__add__,'-': Fraction(int(x[0]), int(x[1])).__sub__, '*': Fraction(int(x[0]), int(x[1])).__mul__,'/': Fraction(int(x[0]), int(x[1])).__truediv__}[x[2]](Fraction(int(x[3]), int(x[4]))), filter(lambda x: len(x) != 1, [line.strip().split() for line in stdin]))))))
