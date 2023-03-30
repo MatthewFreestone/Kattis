@@ -1,5 +1,5 @@
 from sys import stdin
-from bisect import bisect_left
+from bisect import bisect_left, bisect_right
 from collections import Counter
 
 n, q = map(int, input().split())
@@ -9,25 +9,32 @@ data = sorted(repeated_counter.keys())
 # data = sorted([[key, value] for key, value in repeated_counter.items()])
 # print(data)
 
-queries = [tuple(map(int, input().strip().split())) for _ in range(q)]
+queries = [tuple(map(int, stdin.readline().strip().split())) for _ in range(q)]
 for t, d in queries:
-    print(data)
-    print(repeated_counter)
+    # print()
+    # print(data)
+    # print(repeated_counter)
     if t == 1:
-        idx = bisect_left(data, d) + 1
-        while True:
-            if 0 <= idx < len(data):
-                value = data[idx]
-                if repeated_counter[value] > 0:
-                    print(value)
-                    repeated_counter[value] -= 1
-                    break
-                else:
-                    idx += 1
-            else:
-                print(-1)
+        idx = bisect_right(data, d)
+        while idx < len(data):
+            value = data[idx]
+            if value > d and repeated_counter[value] > 0:
+                print(value)
+                repeated_counter[value] -= 1
                 break
+            idx += 1
+        else:
+            print(-1)
     else:
-        pass
-        # idx = bisect_left(problems, d)
-        # print(idx)
+        idx = bisect_left(data, d)
+        idx = idx - 1 if idx == len(data) else idx
+        # print('idx', idx)
+        while idx >= 0:
+            value = data[idx]
+            if value <= d and repeated_counter[value] > 0:
+                print(value)
+                repeated_counter[value] -= 1
+                break
+            idx -= 1
+        else:
+            print(-1)
