@@ -8,6 +8,17 @@ def fun 8
 calc programming - is + fun =
 def fun 1
 calc programming - is + fun =
+def bar 6
+calc programming - is + fun =
 clear
-calc fun = 
-calc is = 
+calc bar = 
+calc bar + foo =
+calc bar - foo =
+def bar 2
+calc bar =
+calc bar + foo =
+calc bar - foo =
+def foo 0
+calc bar =
+calc bar + foo =
+calc bar - foo =
