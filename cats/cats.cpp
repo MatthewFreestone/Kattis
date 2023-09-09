@@ -1,16 +1,15 @@
-#include <stdio.h>
-#include <iostream>
-#include <vector>
-#include <algorithm>
+// THIS ONE WORKS
+#include <bits/stdc++.h>
 using namespace std;
+typedef vector<int> vi;
 
-int find(vector<int> &parents, int a){
+int find(vi &parents, int a){
     if (parents[a] == a){
         return a;
     }
     return parents[a] = find(parents, parents[a]);
 }
-void union_f(vector<int> &parents, int a, int b){
+void union_f(vi &parents, int a, int b){
     parents[find(parents, a)] = find(parents, b);
 }
 
@@ -25,7 +24,10 @@ int main(){
         int m,c;
         scanf("%d %d", &m, &c);
 
-        vector<int> parents(c+1);
+        // give the first cat milk
+        m--;
+
+        vi parents(c+1);
         for (int j = 0; j < c+1; ++j){
             parents[j] = j;
         }
