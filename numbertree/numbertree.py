@@ -1,5 +1,3 @@
-####### Kattis Numbertree Solution ##########33
-
 def main():
     n,dirs = input().split(' ')
     n = int(n)
@@ -16,7 +14,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-####################################################
-

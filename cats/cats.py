@@ -1,37 +1,48 @@
 from sys import stdin
-t = int(stdin.readline().strip())
-for _ in range(t):
-    m,c = map(int,stdin.readline().split())
-    parents = list(range(c+1))
+from functools import lru_cache
+from collections import defaultdict as dd 
+from heapq import heappop, heappush
 
-    edges = []
-    for _ in range((c*(c-1))//2):
-        i, j, dist = map(int, stdin.readline().split())
-        edges.append((dist, i, j))
-    edges.sort()
+def solve(edges, m, c):
+    cats_left = c
+    milk_left = m
+    visited = set()
+    pq = [(0,0)]
+    while pq:
+        j, w = heappop(pq)
+        if j in visited:
+            continue
+        else:
+            visited.add(j)
+            milk_left -= 1+w
+            cats_left -= 1
 
-    def find(x):
-        if parents[x] == x:
-            return x
-        parents[x] = find(parents[x])
-        return parents[x]
-    
-    def union(x,y):
-        parents[find(x)] = find(y)
+            if milk_left < 0:
+                return "no"
+            if cats_left == 0:
+                return "yes"
 
-    cats_connected = 1
-    for dist,x,y in edges:
-        if find(x) == find(y): continue
-        if cats_connected == c: 
-            print("yes")
-            break
-        m -= dist + 1
-        cats_connected += 1
-        union(x,y)
-        if m < 0:
-            print("no")
-            break
+            for n,nw in edges[j]:
+                if n not in visited:
+                    heappush(pq, (n,nw))
     else:
-        print("yes")
+        #this is bad, memory error time
+        a = list(range(1_000_000_000_000))
 
-
+def main():
+    t = int(stdin.readline().strip())
+    for _ in range(t):
+        m,c = map(int,stdin.readline().split())
+        edges = dd(list)
+        for _ in range((c*(c-1))//2):
+            i, j, dist = map(int, stdin.readline().split())
+            edges[i].append((j,dist))
+            edges[j].append((i,dist))
+        if c > m:
+            # more cats than milk, gonna be impossible.  
+            print("no")
+            continue
+        result = solve(edges, m, c)
+        print(result)
+if __name__ == '__main__':
+    main()
