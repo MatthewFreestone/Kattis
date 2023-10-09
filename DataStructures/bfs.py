@@ -9,14 +9,12 @@ neighbors = [(1, 0), (0, 1), (-1, 0), (0, -1)]
 inbounds = lambda x, y: 0 <= x < len(graph) and 0 <= y < len(graph[0])
 
 queue = deque()
-
 x,y = 0,0
 path = [(x,y)]
 start = (x, y, path)
 queue.append(start)
 visited = set()
 visited.add((x, y))
-
 end = (4, 4)
 
 while queue:
