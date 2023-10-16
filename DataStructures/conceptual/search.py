@@ -30,7 +30,6 @@ def bfs(vertex, adj_list: defaultdict(set)):
                 visited.add(neighbor)
 
 def dfs_iter(vertex, adj_list):
-    
     # keep track of visited vertices, could use list
     visited = set()
     # using Stack, so DFS
@@ -40,9 +39,11 @@ def dfs_iter(vertex, adj_list):
     while dfs_stack:
         current = dfs_stack.pop()
 
+        # if DFS, we visit on pop, not enqueue
         if current in visited:
             continue
         visited.add(current)
+
         # visit the node, could do something here
         print(current)
 
