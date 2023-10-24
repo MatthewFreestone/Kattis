@@ -1,0 +1,2 @@
+Looking more at sample 2, I think the max flow approach is wrong.
+Given the restriction that we MUST distribute letters in the given ratio, it might actually be an easier problem.
