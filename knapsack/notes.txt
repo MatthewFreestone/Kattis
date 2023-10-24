@@ -1,0 +1,1 @@
+it seems possible that a bottom-up solution would be faster, eliminating recursion. I think asymptotically I have the right answer, but it might just be a factor of 2-4x too slow.

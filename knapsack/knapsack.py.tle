@@ -1,0 +1,41 @@
+from sys import stdin
+
+def main():
+    while True:
+        line = stdin.readline()
+        if not line:
+            break
+        values = []
+        weights = []
+        c,n = map(int,line.split())
+        for _ in range(n):
+            v,w = map(int,stdin.readline().split())
+            values.append(v)
+            weights.append(w)
+        memo = [[-1]*(c+1) for _ in range(n+1)]
+        def dp(id, remainingW):
+            if (id == n) or (remainingW == 0):
+                return 0
+            if memo[id][remainingW] != -1:
+                return memo[id][remainingW]
+            if weights[id] > remainingW:
+                memo[id][remainingW] = dp(id+1, remainingW) # don't take id
+                return memo[id][remainingW]
+            pos1 = dp(id+1, remainingW)
+            pos2 = values[id] + dp(id+1, remainingW-weights[id])
+            memo[id][remainingW] = max(pos1,pos2)
+            return memo[id][remainingW]
+        path = []
+        def print_dp(id, remW):
+            if (id == n) or (remW == 0): return
+            if dp(id+1, remW) != dp(id, remW):
+                path.append(str(id))
+                print_dp(id+1, remW-weights[id])
+            else:
+                print_dp(id+1, remW)
+        dp(0, c)
+        print_dp(0, c)
+        print(len(path))
+        print(' '.join(path))
+if __name__ == '__main__':
+    main()
