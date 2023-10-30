@@ -1,0 +1,3 @@
+might come back to this and do it properly later
+The grammar is easy, will probably just need to write a function-heavy c++ program to do it
+maybe for speed, make an AST first, then evaluate it repeatedly
