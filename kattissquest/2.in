@@ -1,0 +1,13 @@
+12
+add 5 10
+add 5 8
+query 5
+query 3
+query 6
+query 100
+add 5 5
+add 5 5
+query 10
+add 10 50
+add 5 100
+query 14

@@ -19,7 +19,7 @@ for i in num_left:
         after_first = i
         break
     before_first = i
-# print(before_first, after_first)
+print(before_first, after_first)
 
 # pad before with max number
 before = str(before_first) + ''.join([str(num_left[-1])] * (digits-1))
