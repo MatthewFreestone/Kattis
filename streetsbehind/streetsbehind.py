@@ -1,17 +1,15 @@
 # Rating: ~ 8.2 / 10
 # Link: https://open.kattis.com/problems/streetsbehind
-from math import ceil, floor
+from math import ceil
 from functools import cache
 
 @cache
 def solve(n,k,a,b):
-  print(n,k,a,b)
   y = (b-a) * n // a
   if y == 0:
     return -1
   days = 0
   while k > 0:
-    print(n,a,b)
     y = (b-a) * n // a
     x = ceil(a * (y+1) / (b-a))
     dist_to_x = x - n
