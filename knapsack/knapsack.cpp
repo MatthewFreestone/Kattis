@@ -27,35 +27,62 @@ int main() {
             weights.push_back(w);
         }
         vector<vector<int>> memo;
+        vector<vector<int>> path_memo;
         memo.assign(n, vector<int>(c+1, -1));
-        function<int(int,int)> dp = [&](int id, int remainingW)  {
-            if ((id == n) || (remainingW == 0)) return 0;
+        path_memo.assign(n, vector<int>(c+1, 0));
+        // function<pair<int,int>(int,int,int)>
+        function<pair<int,int>(int,int,int)> dp = [&](int id, int remainingW, int path) -> pair<int,int> {
+            if ((id == n) || (remainingW == 0)) return make_pair(0, path);
             int &ans = memo[id][remainingW];
-            if (ans != -1) return ans; //dp step!
+            int &path_ans = path_memo[id][remainingW];
+            if (ans != -1) return make_pair(ans, path); //dp step!
             if (weights[id] > remainingW) {
                 // we can't take, so we move on
-                return ans = dp(id + 1, remainingW); 
+                auto resp = dp(id + 1, remainingW, path); 
+                ans = resp.first;
+                path_ans = resp.second;
+                return resp;
             }
-            int pos1 = dp(id + 1, remainingW); // we don't take
-            int pos2 = values[id] + dp(id+1, remainingW - weights[id]); // we take
-            return ans = max(pos1,pos2);
-        };
-        dp(0, c);
-        vector<int> path;
-        function<void(int,int)> print_dp = [&](int id, int remW) {
-            if ((id == n) || (remW == 0)) return;
-            if (dp(id + 1, remW) != dp(id, remW)) {
-                path.push_back(id);
-                print_dp(id+1, remW - weights[id]);
+            auto resp1 = dp(id + 1, remainingW, path); // we don't take
+            auto resp2 = dp(id+1, remainingW - weights[id], path ^ (1 << id)); // we take
+            resp2.first += values[id];
+            if (resp1 > resp2) {
+                ans = resp1.first;
+                path_ans = resp1.second;
+                return resp1;
             }
             else {
-                print_dp(id+1, remW);
+                ans = resp2.first;
+                path_ans = resp2.second;
+                return resp2;
             }
-
         };
-        print_dp(0, c);
-        cout << path.size() << endl;
-        for (int node : path) {
+        dp(0, c, 0);
+        int path = path_memo[0][c];
+        // cout << path << memo[0][c] << endl;
+        // cout << n << c << endl;
+        vector<int> res;
+        // for (auto line: memo) {
+        //     for (auto v: line) {
+        //         cout << v << " ";
+        //     }
+        //     cout << endl;
+        // }
+        // for (auto line: path_memo) {
+        //     for (auto v: line) {
+        //         cout << v << " ";
+        //     }
+        //     cout << endl;
+        // }
+        for (int i = 0; path; i++) {
+            int t = 1 << i;
+            if (path & t) {
+                res.push_back(i);
+                path ^= t;
+            }
+        }
+        cout << res.size() << endl;
+        for (int node : res) {
             cout << node << " ";
         }
         cout << endl;
