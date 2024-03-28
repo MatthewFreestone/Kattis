@@ -30,6 +30,8 @@ def main():
             path_memo[id][remainingW] = ans[1]
             return memo[id][remainingW], path_memo[id][remainingW]
         dp(0, c, 0)
+        # print(memo)
+        # print(path_memo)
         path = path_memo[0][-1]
         res = []
         i = 0

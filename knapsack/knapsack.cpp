@@ -59,7 +59,8 @@ int main() {
         };
         dp(0, c, 0);
         int path = path_memo[0][c];
-        // cout << path << memo[0][c] << endl;
+        // cout << path << "\t" << memo[0][c] << endl;
+        cout << memo[0][c] << endl;
         // cout << n << c << endl;
         vector<int> res;
         // for (auto line: memo) {

@@ -40,7 +40,16 @@ int main() {
             int pos2 = values[id] + dp(id+1, remainingW - weights[id]); // we take
             return ans = max(pos1,pos2);
         };
-        dp(0, c);
+        int res = dp(0, c);
+        // cout << res << endl;
+
+        // for (int i = 0; i < n; ++i) {
+        //     for (int w = 0; w <= c; ++w) {
+        //         cout << memo[i][w] << " ";
+        //     }
+        //     cout << endl;
+        // }
+
         vector<int> path;
         function<void(int,int)> print_dp = [&](int id, int remW) {
             if ((id == n) || (remW == 0)) return;
@@ -59,6 +68,14 @@ int main() {
             cout << node << " ";
         }
         cout << endl;
+
+        int t = 0;
+        for (auto i: path) {
+            t += values[i];
+        }
+        if (t != res){
+            cout << "BAD STUFF: " << t << " " << res << endl;
+        }
 
     };
     return 0;

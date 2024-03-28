@@ -1,1 +1,3 @@
-it seems possible that a bottom-up solution would be faster, eliminating recursion. I think asymptotically I have the right answer, but it might just be a factor of 2-4x too slow.
+It seems possible that a bottom-up solution would be faster, eliminating recursion. I think asymptotically I have the right answer, but it might just be a factor of 2-4x too slow.
+
+Later: yep, this is true. Turns out you need bottom-up. The bu-knapsack.cpp solution works.
