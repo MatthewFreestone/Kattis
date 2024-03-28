@@ -13,7 +13,7 @@ c = (b-a) / a
 print(type(c), sys.getsizeof(c))
 print(c)
 
-decimal.getcontext().prec = 6
+decimal.getcontext().prec = 10
 n,a,b = map(decimal.Decimal, [n,a,b])
 c = (b-a) / a
 print(type(c), sys.getsizeof(c))

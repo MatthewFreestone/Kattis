@@ -1,15 +1,12 @@
-from sys import stdin
 case_num = 1
 around = ((0,1),(0,-1),(1,0),(-1,0))
-
-lines = [line.strip() for line in stdin]
-while lines:
+while True:
     try:
-        curr = next(lines)
-    except:
+        curr = input()
+    except EOFError:
         exit()
     m,n = map(int, curr.split())
-    graph = [list(next(lines)) for _ in range(m)]
+    graph = [list(input()) for _ in range(m)]
     in_range = lambda x,y: 0 <= x < m and 0 <= y < n
     def dfs(x,y):
         queue = []
