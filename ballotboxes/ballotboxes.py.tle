@@ -1,22 +1,26 @@
 # Rating: ~ 4.1 / 10
 # Link: https://open.kattis.com/problems/ballotboxes
 from heapq import heappush, heappop
+from collections import Counter
 from sys import stdin
 from math import ceil, isclose
 from functools import cache
 
 @cache
-def solve(n, b, cities):
-    cities = list(cities)
+def solve(n, b, heap):
+    cities = list(heap)
     b -= n
     while b:
-       curr_max, curr_boxes = heappop(cities)
+       curr_max, curr_boxes, count = heappop(cities)
        if curr_max == 1:
+           return 1
+       if count > b:
+           heappush(cities, (curr_max, curr_boxes, count))
            break
        new_max = curr_max * (curr_boxes/(curr_boxes+1))
-       heappush(cities, (new_max, curr_boxes+1))
-       b -= 1
-    largest, _ = heappop(cities)
+       heappush(cities, (new_max, curr_boxes+1, count))
+       b -= count
+    largest, _, _ = heappop(cities)
     largest = abs(largest)
     # likely floating-point error
     if isclose(largest, int(largest), rel_tol=1e-8):
@@ -33,11 +37,14 @@ def main():
         n,b = map(int,input().split())
         if n == -1 == b:
             break
-        cities = []
+        cities = Counter()
         for _ in range(n):
             p = int(input())
-            heappush(cities, (-p, 1))
-        out = solve(n,b,tuple(cities))
+            cities[p] += 1
+        heap = []
+        for k, v in cities.items():
+            heappush(heap, (-k, 1, v))
+        out = solve(n,b,tuple(heap))
         answers.append(out)
         input()
     print(*answers, sep="\n")
